@@ -58,7 +58,7 @@ class MainWindow(wx.Frame):
         if dlg.ShowModal() == wx.ID_OK:  
             print dlg.GetPath()
 
-        dlg.Destroy()  
+        dlg.Destroy()
 
 
 if __name__ == "__main__":
