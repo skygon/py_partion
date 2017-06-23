@@ -4,12 +4,12 @@ import wx
 class MainWindow(wx.Frame):
     '''define an window class'''
     def __init__(self, parent, title):
-        wx.Frame.__init__(self, parent, title=title, size=(600, 400))
+        wx.Frame.__init__(self, parent, title=title, size=(1000, 800))
         self.control = wx.TextCtrl(self, style=wx.TE_MULTILINE)
       
         self.setupMenuBar()
         self.Show(True)
-    
+
     def setupMenuBar(self):
         self.CreateStatusBar()
       
@@ -36,7 +36,7 @@ class MainWindow(wx.Frame):
         self.Bind(wx.EVT_MENU, self.onNew, menu_new)
         self.Bind(wx.EVT_MENU, self.onOpen, menu_open)
         self.SetMenuBar(menu_bar)
-    
+
     def onAbout(self, evt):
         '''click about event handler'''
         dlg = wx.MessageDialog(self, 'This app is a simple text editor', 'About my app', wx.OK)
