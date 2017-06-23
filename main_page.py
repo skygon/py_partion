@@ -48,9 +48,13 @@ class MainWindow(wx.Frame):
         self.Close(True)
     
     def onNew(self, evt):
-        dlg = wx.MessageDialog(self, 'This feature is on developing', 'hint', wx.OK)
-        dlg.ShowModal()
-        dlg.Destroy()
+        dlg = wx.DirDialog(self, "Select a floder to save project", style=wx.DD_DEFAULT_STYLE)
+        prj_path = ""
+        if dlg.ShowModal() == wx.ID_OK:
+            prj_path = dlg.GetPath()
+            print "project path is %s" %(prj_path)
+        else:
+            print "Incorrect path"
     
     def onOpen(self, evt):
         '''select project and open'''
