@@ -1,10 +1,11 @@
 #coding=utf-8
 import wx
+from new_project import NewProject
   
 class MainWindow(wx.Frame):
     '''define an window class'''
     def __init__(self, parent, title):
-        wx.Frame.__init__(self, parent, title=title, size=(1000, 800))
+        wx.Frame.__init__(self, parent, title=title, size=(600, 400))
         self.control = wx.TextCtrl(self, style=wx.TE_MULTILINE)
       
         self.setupMenuBar()
@@ -48,13 +49,8 @@ class MainWindow(wx.Frame):
         self.Close(True)
     
     def onNew(self, evt):
-        dlg = wx.DirDialog(self, "Select a floder to save project", style=wx.DD_DEFAULT_STYLE)
-        prj_path = ""
-        if dlg.ShowModal() == wx.ID_OK:
-            prj_path = dlg.GetPath()
-            print "project path is %s" %(prj_path)
-        else:
-            print "Incorrect path"
+        new_prj_frame = NewProject()
+        new_prj_frame.Show(True)
     
     def onOpen(self, evt):
         '''select project and open'''
