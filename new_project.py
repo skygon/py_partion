@@ -5,7 +5,7 @@ import wx
 class NewProject(wx.Frame):
     def __init__(self):
         wx.Frame.__init__(self,None,-1,"Example For TextCtrl",
-                         size=(300,100))
+                         size=(400, 150))
         panel=wx.Panel(self,-1)
         
         #添加用户名 文本输入框
@@ -23,6 +23,15 @@ class NewProject(wx.Frame):
         sizer=wx.FlexGridSizer(cols=2,hgap=6,vgap=6)
         sizer.AddMany([userLabel,userText,passwdLabel,passwdText])
         panel.SetSizer(sizer)
+
+         #在Panel上添加Button  
+        button = wx.Button(panel, label = 'close', pos = (200, 60), size = (60, 20))  
+          
+        #绑定单击事件  
+        self.Bind(wx.EVT_BUTTON, self.OnCloseMe, button)  
+          
+    def OnCloseMe(self, event):  
+        self.Close(True)  
 
 
 if __name__ == "__main__":
