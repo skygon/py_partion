@@ -1,3 +1,4 @@
+#coding=utf-8
 import os
 import json
 
@@ -21,4 +22,13 @@ class Utils(object):
             cfg_file = os.path.join(path, 'config.json')
             with open(cfg_file, 'r') as f:
                 return json.load(f)
+    
+    @staticmethod
+    def appendToFile(path, line):
+        print "append patient information to file"
+        if os.path.exists(path):
+            data_file = os.path.join(path, 'data.csv')
+            with open(data_file, 'a') as f:
+                f.write(line.encode('utf8'))
+                f.write('\n')
         

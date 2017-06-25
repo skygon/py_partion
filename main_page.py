@@ -79,20 +79,24 @@ class MainWindow(wx.Frame):
     # ============================Logic functions============================
     # New project callback function
     def newPrjCallback(self, new_prj):
-        print "In new project callback"
-        data = {}
-        if new_prj.create:
-            data['prj_name'] = new_prj.prj_name
-            data['partion_num'] = new_prj.partion_num
-            data['prj_path'] = new_prj.path
-            Utils.saveConfigFile(data, data['prj_path'])
-        # close project frame
-        new_prj.Close(True)
-
-        # init new project
-        self.prjInit(data)
+        try:
+            print "In new project callback"
+            data = {}
+            if new_prj.create:
+                data['prj_name'] = new_prj.prj_name
+                data['partion_num'] = new_prj.partion_num
+                data['prj_path'] = new_prj.path
+                Utils.saveConfigFile(data, data['prj_path'])
+            # init new project
+            self.prjInit(data)
+        except Exception, e:
+            print "New project callback error: %s" %(str(e))
+        finally:
+            # close project frame
+            new_prj.Close(True)
     
     def prjInit(self, data):
+        self.path = data['prj_path']
         self.prj_name_label = wx.StaticText(self.panel, -1, "Project Name:")
         self.prj_name_text = wx.StaticText(self.panel, -1, data['prj_name'])
         # wx.TE_READONLY
@@ -112,10 +116,18 @@ class MainWindow(wx.Frame):
         pass
     
     def newPatientCallback(self, new_pat):
-        pat_name = new_pat.patient_name
-        pat_gender = new_pat.patient_gender
-        print "name %s, gender: %s" %(pat_name, pat_gender)
-        new_pat.Close(True)
+        try:
+            pat_name = new_pat.patient_name
+            pat_gender = new_pat.patient_gender
+            print "name %s, gender: %s" %(type(pat_name), type(pat_gender))
+            line = pat_name + "," + pat_gender
+            # line is unicode
+            print "line is %s" %(line.encode('utf8'))
+            Utils.appendToFile(self.path, line)
+        except Exception, e:
+            print "Exception in newPatientCallback: %s" %(str(e))
+        finally:
+            new_pat.Close(True)
 
 
 if __name__ == "__main__":
