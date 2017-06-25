@@ -1,6 +1,7 @@
 #coding=utf-8
 import wx
 import time
+import random
 from utils import *
 from new_project import NewProject
 from new_patient import NewPatient
@@ -96,7 +97,10 @@ class MainWindow(wx.Frame):
             new_prj.Close(True)
     
     def prjInit(self, data):
+        self.sizer.Clear()
+        self.panel.ClearBackground()
         self.path = data['prj_path']
+        self.partion_num = int(data['partion_num'])
         self.prj_name_label = wx.StaticText(self.panel, -1, "Project Name:")
         self.prj_name_text = wx.StaticText(self.panel, -1, data['prj_name'])
         # wx.TE_READONLY
@@ -120,7 +124,10 @@ class MainWindow(wx.Frame):
             pat_name = new_pat.patient_name
             pat_gender = new_pat.patient_gender
             print "name %s, gender: %s" %(type(pat_name), type(pat_gender))
-            line = pat_name + "," + pat_gender
+            
+            partion = random.randint(0, self.partion_num-1)
+            time_str = time.strftime('%Y-%m-%d %H:%M',time.localtime(time.time()))
+            line = pat_name + "," + pat_gender + "," + str(partion) + "," + time_str
             # line is unicode
             print "line is %s" %(line.encode('utf8'))
             Utils.appendToFile(self.path, line)
