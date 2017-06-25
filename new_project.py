@@ -5,7 +5,7 @@ import wx
 class NewProject(wx.Frame):
     def __init__(self, callback):
         wx.Frame.__init__(self,None,-1,"Create new project",
-                         size=(400, 150))
+                         size=(400, 180))
 
         self.path = None
         self.create = False

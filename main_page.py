@@ -3,15 +3,17 @@ import wx
 import time
 from utils import *
 from new_project import NewProject
+from new_patient import NewPatient
   
 class MainWindow(wx.Frame):
     '''define an window class'''
     def __init__(self, parent, title):
         wx.Frame.__init__(self, parent, title=title, size=(800, 600))
-        self.SetMaxSize((800, 600))
+        #self.SetMaxSize((800, 600))
         #self.control = wx.TextCtrl(self, style=wx.TE_MULTILINE)
         self.panel = wx.Panel(self,-1)
-        self.sizer = wx.FlexGridSizer(cols=2,hgap=6,vgap=6)
+        #self.sizer = wx.FlexGridSizer(cols=2,hgap=6,vgap=6)
+        self.sizer = wx.GridBagSizer(5,5)
         self.panel.SetSizer(self.sizer)
 
         self.setupMenuBar()
@@ -44,6 +46,7 @@ class MainWindow(wx.Frame):
         self.Bind(wx.EVT_MENU, self.onOpen, menu_open)
         self.SetMenuBar(menu_bar)
 
+    # event handlers
     def onAbout(self, evt):
         '''click about event handler'''
         dlg = wx.MessageDialog(self, 'This app is a simple text editor', 'About my app', wx.OK)
@@ -65,6 +68,10 @@ class MainWindow(wx.Frame):
             print dlg.GetPath()
 
         dlg.Destroy()
+    
+    def onAdd(self, evt):
+        add_frame = NewPatient(self.newPatientCallback)
+        add_frame.Show(True)
 
     # ============================Logic functions============================
     # New project callback function
@@ -84,13 +91,21 @@ class MainWindow(wx.Frame):
     
     def prjInit(self, data):
         self.prj_name_label = wx.StaticText(self.panel, -1, "Project Name:")
+        self.prj_name_text = wx.StaticText(self.panel, -1, data['prj_name'])
         # wx.TE_READONLY
-        self.prj_name_text = wx.TextCtrl(self.panel, -1, data['prj_name'], size=(175,-1), style=wx.TE_READONLY)
-        #self.prj_name_text.SetInsertionPoint(0)
+        #self.prj_name_text = wx.TextCtrl(self.panel, -1, data['prj_name'], size=(175,-1), style=wx.TE_READONLY)
 
-        self.add_button = wx.Button(self.panel, label = 'Add', pos = (200, 60), size = (60, 20))  
-        self.sizer.AddMany([self.prj_name_label, self.prj_name_text, self.add_button])
+        self.add_button = wx.Button(self.panel, label = u'添加病人信息', size = (100, 20))  
+        #self.sizer.AddMany([self.prj_name_label, self.prj_name_text, self.add_button])
+        self.sizer.Add(self.prj_name_label, pos=(0,0))
+        self.sizer.Add(self.prj_name_text, pos=(0,1))
+        self.sizer.Add(self.add_button, pos=(1,1))
 
+        # bind events
+        self.Bind(wx.EVT_BUTTON, self.onAdd, self.add_button)
+    
+    def newPatientCallback(self, new_pat):
+        pass
 
 
 if __name__ == "__main__":

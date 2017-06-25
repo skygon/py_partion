@@ -44,7 +44,7 @@
             <property name="minimum_size"></property>
             <property name="name">MyFrame1</property>
             <property name="pos"></property>
-            <property name="size">500,300</property>
+            <property name="size">582,442</property>
             <property name="style">wxDEFAULT_FRAME_STYLE</property>
             <property name="subclass"></property>
             <property name="title"></property>
@@ -88,12 +88,6 @@
             <event name="OnSetFocus"></event>
             <event name="OnSize"></event>
             <event name="OnUpdateUI"></event>
-            <object class="wxBoxSizer" expanded="1">
-                <property name="minimum_size"></property>
-                <property name="name">bSizer1</property>
-                <property name="orient">wxVERTICAL</property>
-                <property name="permission">none</property>
-            </object>
             <object class="wxMenuBar" expanded="1">
                 <property name="bg"></property>
                 <property name="context_help"></property>
@@ -106,7 +100,7 @@
                 <property name="label">MyMenuBar</property>
                 <property name="maximum_size"></property>
                 <property name="minimum_size"></property>
-                <property name="name">m_menubar1</property>
+                <property name="name">m_menubar</property>
                 <property name="permission">protected</property>
                 <property name="pos"></property>
                 <property name="size"></property>
@@ -143,34 +137,34 @@
                     <property name="label">File</property>
                     <property name="name">m_file</property>
                     <property name="permission">protected</property>
-                    <object class="wxMenuItem" expanded="1">
+                    <object class="wxMenuItem" expanded="0">
                         <property name="bitmap"></property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">MyMenuItem</property>
-                        <property name="name">m_menuItem3</property>
+                        <property name="label">Save</property>
+                        <property name="name">mi_save</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
-                        <event name="OnMenuSelection"></event>
+                        <event name="OnMenuSelection">onSave</event>
                         <event name="OnUpdateUI"></event>
                     </object>
-                    <object class="wxMenuItem" expanded="1">
+                    <object class="wxMenuItem" expanded="0">
                         <property name="bitmap"></property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">MyMenuItem</property>
-                        <property name="name">m_menuItem4</property>
+                        <property name="label">Exit</property>
+                        <property name="name">mi_exit</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
-                        <event name="OnMenuSelection"></event>
+                        <event name="OnMenuSelection">onExit</event>
                         <event name="OnUpdateUI"></event>
                     </object>
                 </object>
@@ -178,7 +172,7 @@
                     <property name="label">Project</property>
                     <property name="name">m_project</property>
                     <property name="permission">protected</property>
-                    <object class="wxMenuItem" expanded="1">
+                    <object class="wxMenuItem" expanded="0">
                         <property name="bitmap"></property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
@@ -193,7 +187,7 @@
                         <event name="OnMenuSelection">onNewProject</event>
                         <event name="OnUpdateUI"></event>
                     </object>
-                    <object class="wxMenuItem" expanded="1">
+                    <object class="wxMenuItem" expanded="0">
                         <property name="bitmap"></property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
@@ -205,10 +199,23 @@
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
-                        <event name="OnMenuSelection"></event>
+                        <event name="OnMenuSelection">onOpenProject</event>
                         <event name="OnUpdateUI"></event>
                     </object>
                 </object>
+            </object>
+            <object class="wxFlexGridSizer" expanded="1">
+                <property name="cols">2</property>
+                <property name="flexible_direction">wxBOTH</property>
+                <property name="growablecols"></property>
+                <property name="growablerows"></property>
+                <property name="hgap">0</property>
+                <property name="minimum_size"></property>
+                <property name="name">fgSizer2</property>
+                <property name="non_flexible_grow_mode">wxFLEX_GROWMODE_SPECIFIED</property>
+                <property name="permission">none</property>
+                <property name="rows">0</property>
+                <property name="vgap">0</property>
             </object>
         </object>
     </object>
