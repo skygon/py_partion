@@ -3,12 +3,14 @@
 import wx
 
 class NewProject(wx.Frame):
-    def __init__(self):
+    def __init__(self, callback):
         wx.Frame.__init__(self,None,-1,"Create new project",
                          size=(400, 150))
 
         self.path = None
+        self.alive = True
         self.create = False
+        self.callback = callback
 
         # frame layout
         self.panel = wx.Panel(self,-1)
@@ -44,25 +46,29 @@ class NewProject(wx.Frame):
     def onBrowse(self, evt):
         dlg = wx.DirDialog(self, "Select an folder to save project", style=wx.DD_DEFAULT_STYLE)  
         if dlg.ShowModal() == wx.ID_OK:
-            self.path = dlg.GetPath()  
-            print self.path
+            self.path = dlg.GetPath()
+            self.create = True
+            print "create is True"
 
         dlg.Destroy()
     
     def onOk(self, evt):
         print "Click OK, start to create new project"
-        self.create = True
         self.prj_name = self.prj_name_text.GetValue()
         self.partion_num = self.partion_num_text.GetValue()
         print "configure information:"
         print "prj_name: %s" %(self.prj_name)
         print "partion number: %s" %(self.partion_num)
         print "project path: %s" %(self.path)
-        self.Close(True)
+        self.alive = False
+        self.Show(False)
+        self.callback(self)
+        #self.Close(True)
 
     def onCancel(self, evt): 
         self.create = False 
-        self.Close(True)  
+        self.alive = False
+        self.Close(True)
 
 
 if __name__ == "__main__":

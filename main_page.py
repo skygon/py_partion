@@ -1,5 +1,7 @@
 #coding=utf-8
 import wx
+import time
+from utils import *
 from new_project import NewProject
   
 class MainWindow(wx.Frame):
@@ -49,8 +51,19 @@ class MainWindow(wx.Frame):
         self.Close(True)
     
     def onNew(self, evt):
-        new_prj_frame = NewProject()
-        new_prj_frame.Show(True)
+        new_prj = NewProject(self.newPrjCallback)
+        new_prj.Show(True)  
+    
+    def newPrjCallback(self, new_prj):
+        print "In new project callback"
+        if new_prj.create:
+            data = {}
+            data['prj_name'] = new_prj.prj_name
+            data['partion_num'] = new_prj.partion_num
+            data['prj_path'] = new_prj.path
+            Utils.saveConfigFile(data, data['prj_path'])
+            new_prj.Close(True)
+
     
     def onOpen(self, evt):
         '''select project and open'''
