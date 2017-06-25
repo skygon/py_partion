@@ -8,7 +8,6 @@ class NewProject(wx.Frame):
                          size=(400, 150))
 
         self.path = None
-        self.alive = True
         self.create = False
         self.callback = callback
 
@@ -29,16 +28,16 @@ class NewProject(wx.Frame):
         self.path_label = wx.StaticText(self.panel, -1, "Project Directory:")
         self.path_button = wx.Button(self.panel, label = 'browse', pos = (200, 60), size = (60, 20))  
 
-        #用sizer控制界面布局
+        # 用sizer控制界面布局
         self.sizer = wx.FlexGridSizer(cols=2,hgap=6,vgap=6)
         self.sizer.AddMany([self.prj_name_label, self.prj_name_text, self.partion_num_label, self.partion_num_text, self.path_label, self.path_button])
         self.panel.SetSizer(self.sizer)
 
-        #在Panel上添加Button  
+        # 在Panel上添加Button  
         self.ok_button = wx.Button(self.panel, label = 'OK', pos = (240, 100), size = (60, 20))
         self.cancel_button = wx.Button(self.panel, label = 'Cancel', pos = (320, 100), size = (60, 20))
         
-        #绑定单击事件  
+        # 绑定单击事件  
         self.Bind(wx.EVT_BUTTON, self.onBrowse, self.path_button)
         self.Bind(wx.EVT_BUTTON, self.onOk, self.ok_button)
         self.Bind(wx.EVT_BUTTON, self.onCancel, self.cancel_button)
@@ -60,14 +59,12 @@ class NewProject(wx.Frame):
         print "prj_name: %s" %(self.prj_name)
         print "partion number: %s" %(self.partion_num)
         print "project path: %s" %(self.path)
-        self.alive = False
         self.Show(False)
         self.callback(self)
         #self.Close(True)
 
     def onCancel(self, evt): 
         self.create = False 
-        self.alive = False
         self.Close(True)
 
 
