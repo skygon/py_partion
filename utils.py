@@ -14,4 +14,11 @@ class Utils(object):
             print "config file is %s" %(cfg_file)
             with open(cfg_file, 'w') as outfile:
                 json.dump(data, outfile)
+    @staticmethod
+    def readConfigFile(path):
+        print "read configuration from file"
+        if os.path.exists(path):
+            cfg_file = os.path.join(path, 'config.json')
+            with open(cfg_file, 'r') as f:
+                return json.load(f)
         

@@ -65,7 +65,10 @@ class MainWindow(wx.Frame):
         '''select project and open'''
         dlg = wx.DirDialog(self, "Select an exist project", style=wx.DD_DEFAULT_STYLE)  
         if dlg.ShowModal() == wx.ID_OK:  
-            print dlg.GetPath()
+            prj_path = dlg.GetPath()
+            data = Utils.readConfigFile(prj_path)
+            self.prjInit(data)
+            self.loadExistData()
 
         dlg.Destroy()
     
@@ -77,17 +80,17 @@ class MainWindow(wx.Frame):
     # New project callback function
     def newPrjCallback(self, new_prj):
         print "In new project callback"
+        data = {}
         if new_prj.create:
-            self.data = {}
-            self.data['prj_name'] = new_prj.prj_name
-            self.data['partion_num'] = new_prj.partion_num
-            self.data['prj_path'] = new_prj.path
-            Utils.saveConfigFile(self.data, self.data['prj_path'])
+            data['prj_name'] = new_prj.prj_name
+            data['partion_num'] = new_prj.partion_num
+            data['prj_path'] = new_prj.path
+            Utils.saveConfigFile(data, data['prj_path'])
         # close project frame
         new_prj.Close(True)
 
         # init new project
-        self.prjInit(self.data)
+        self.prjInit(data)
     
     def prjInit(self, data):
         self.prj_name_label = wx.StaticText(self.panel, -1, "Project Name:")
@@ -104,8 +107,15 @@ class MainWindow(wx.Frame):
         # bind events
         self.Bind(wx.EVT_BUTTON, self.onAdd, self.add_button)
     
-    def newPatientCallback(self, new_pat):
+    # used in open an exist project
+    def loadExistData(self):
         pass
+    
+    def newPatientCallback(self, new_pat):
+        pat_name = new_pat.patient_name
+        pat_gender = new_pat.patient_gender
+        print "name %s, gender: %s" %(pat_name, pat_gender)
+        new_pat.Close(True)
 
 
 if __name__ == "__main__":

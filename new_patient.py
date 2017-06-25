@@ -16,7 +16,7 @@ class NewPatient(wx.Frame):
         self.patient_name_label = wx.StaticText(self.panel,-1,"Patient Name:")
         self.patient_name_text = wx.TextCtrl(self.panel,-1,"Entry patient name", size=(175,-1))
         #设置默认的插入点，整数索引，开始位置为0
-        self.prj_name_text.SetInsertionPoint(0)
+        self.patient_name_text.SetInsertionPoint(0)
 
         # gender
         self.patient_gender_label = wx.StaticText(self.panel,-1,"Gender:")
