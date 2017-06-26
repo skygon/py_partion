@@ -1,32 +1,56 @@
 import wx
 
-class GenericTable(wx.grid.GridTableBase):
-            
-    def __init__(self, data, rowLabels=None, colLabels=None):
-        wx.grid.GridTableBase.__init__(self)
-        self.data = data
-        self.rowLabels = rowLabels
-        self.colLabels = colLabels
-        
-    def GetNumberRows(self):
-        return len(self.data)
+########################################################################
+class ChartPanel(wx.Panel):
+    """"""
 
-    def GetNumberCols(self):
-        return len(self.data[0])
+    #----------------------------------------------------------------------
+    def __init__(self, parent):
+        """Constructor"""
+        wx.Panel.__init__(self, parent)
 
-    def GetColLabelValue(self, col):
-        if self.colLabels:
-            return self.colLabels[col]
-        
-    def GetRowLabelValue(self, row):
-        if self.rowLabels:
-            return self.rowLabels[row]
-        
-    def IsEmptyCell(self, row, col):
-        return False
+########################################################################
+class MainPanel(wx.Panel):
+    """"""
 
-    def GetValue(self, row, col):
-        return self.data[row][col]
+    #----------------------------------------------------------------------
+    def __init__(self, parent):
+        """Constructor"""
+        wx.Panel.__init__(self, parent)
+        chart = ChartPanel(self)
+        chart.SetBackgroundColour("blue")
 
-    def SetValue(self, row, col, value):
-        pass     
+        # create some sizers
+        mainSizer = wx.BoxSizer(wx.VERTICAL)
+        topSizer = wx.BoxSizer(wx.HORIZONTAL)
+        # change to VERTICAL if the buttons need to be stacked
+        btnSizer = wx.BoxSizer(wx.HORIZONTAL)
+
+        for i in range(3):
+            btn = wx.Button(self, label="Button #%s" % (i+1))
+            btnSizer.Add(btn, 0, wx.ALL, 5)
+
+        # put the buttons next to the Panel on the top
+        topSizer.Add(btnSizer, 0, wx.ALL, 5)
+        topSizer.Add(chart, 1, wx.EXPAND)
+
+        mainSizer.Add(topSizer, 1, wx.EXPAND)
+        mainSizer.AddSpacer(150)
+        self.SetSizer(mainSizer)
+
+########################################################################
+class MainFrame(wx.Frame):
+    """"""
+
+    #----------------------------------------------------------------------
+    def __init__(self):
+        """Constructor"""
+        wx.Frame.__init__(self, None, title="BoxSizer Example")
+        panel = MainPanel(self)
+        self.Show()
+
+#----------------------------------------------------------------------
+if __name__ == "__main__":
+    app = wx.App(False)
+    frame = MainFrame()
+    app.MainLoop()
