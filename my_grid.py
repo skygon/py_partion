@@ -20,7 +20,7 @@ class TestFrame(wx.Frame):
             for col in range(5):
                 grid.SetCellValue(row, col, "(%s,%s)" % (self.rowLabels[row], self.colLabels[col]))
         #grid.ClearGrid()
-        grid.AppendRows(10)
+        grid.AppendRows(100)
         for col in range(5):
             grid.SetCellValue(5, col, "(%s,%s)" % (self.rowLabels[row-1], self.colLabels[col]))
         

@@ -1,5 +1,6 @@
 #coding=utf-8
 import wx
+import wx.grid
 import time
 import random
 from utils import *
@@ -12,7 +13,9 @@ class MainWindow(wx.Frame):
         wx.Frame.__init__(self, parent, title=title, size=(800, 600))
         #self.SetMaxSize((800, 600))
         #self.control = wx.TextCtrl(self, style=wx.TE_MULTILINE)
+        self.colLabels = ["Name", "Gender", "Group", "Address", "Phone", 'Create Time']
         self.panel = wx.Panel(self,-1)
+        #self.panel = wx.ScrolledPanel(self)
         #self.sizer = wx.FlexGridSizer(cols=2,hgap=6,vgap=6)
         self.sizer = wx.GridBagSizer(5,5)
         self.panel.SetSizer(self.sizer)
@@ -97,27 +100,43 @@ class MainWindow(wx.Frame):
             new_prj.Close(True)
     
     def prjInit(self, data):
-        self.sizer.Clear()
-        self.panel.ClearBackground()
-        self.path = data['prj_path']
-        self.partion_num = int(data['partion_num'])
-        self.prj_name_label = wx.StaticText(self.panel, -1, "Project Name:")
-        self.prj_name_text = wx.StaticText(self.panel, -1, data['prj_name'])
-        # wx.TE_READONLY
-        #self.prj_name_text = wx.TextCtrl(self.panel, -1, data['prj_name'], size=(175,-1), style=wx.TE_READONLY)
+        try:
+            self.sizer.Clear()
+            self.panel.ClearBackground()
+            self.path = data['prj_path']
+            self.partion_num = int(data['partion_num'])
+            self.prj_name_label = wx.StaticText(self.panel, -1, "Project Name:")
+            self.prj_name_text = wx.StaticText(self.panel, -1, data['prj_name'])
+            # wx.TE_READONLY
+            #self.prj_name_text = wx.TextCtrl(self.panel, -1, data['prj_name'], size=(175,-1), style=wx.TE_READONLY)
 
-        self.add_button = wx.Button(self.panel, label = u'添加病人信息', size = (100, 20))  
-        #self.sizer.AddMany([self.prj_name_label, self.prj_name_text, self.add_button])
-        self.sizer.Add(self.prj_name_label, pos=(0,0))
-        self.sizer.Add(self.prj_name_text, pos=(0,1))
-        self.sizer.Add(self.add_button, pos=(1,1))
+            self.add_button = wx.Button(self.panel, label = u'添加病人信息', size = (100, 20))  
+            #self.sizer.AddMany([self.prj_name_label, self.prj_name_text, self.add_button])
+            self.sizer.Add(self.prj_name_label, pos=(0,0))
+            self.sizer.Add(self.prj_name_text, pos=(0,1))
+            self.sizer.Add(self.add_button, pos=(1,1))
 
-        # bind events
-        self.Bind(wx.EVT_BUTTON, self.onAdd, self.add_button)
+            # Init grid to show patients information
+            self.grid = wx.grid.Grid(self.panel)
+            #self.grid.Scroll(0, 0) 
+            self.grid.CreateGrid(100,6)
+            self.grid_rows = 5 # initially we have 5 rows
+            for i in range(len(self.colLabels)):
+                self.grid.SetColLabelValue(i, self.colLabels[i])
+
+            self.sizer.Add(self.grid, pos=(5,5), flag=wx.CENTER|wx.ALL, border=5)
+
+            # bind events
+            self.Bind(wx.EVT_BUTTON, self.onAdd, self.add_button)
+        except Exception, e:
+            print "Init project failed: %s" %(str(e))
     
     # used in open an exist project
     def loadExistData(self):
-        pass
+        try:
+            pass
+        except Exception, e:
+            print "loadExistData failed: %s" %(str(e))
     
     def newPatientCallback(self, new_pat):
         try:
@@ -133,6 +152,9 @@ class MainWindow(wx.Frame):
             # line is unicode
             print "line is %s" %(line.encode('utf8'))
             Utils.appendToFile(self.path, line)
+            self.loadExistData()
+
+            # TODO refresh grid
         except Exception, e:
             print "Exception in newPatientCallback: %s" %(str(e))
         finally:
