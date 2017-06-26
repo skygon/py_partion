@@ -12,13 +12,16 @@ class MainWindow(wx.Frame):
     def __init__(self, parent, title):
         wx.Frame.__init__(self, parent, title=title, size=(800, 600))
         #self.SetMaxSize((800, 600))
-        #self.control = wx.TextCtrl(self, style=wx.TE_MULTILINE)
+        
         self.colLabels = ["Name", "Gender", "Group", "Address", "Phone", 'Create Time']
         self.panel = wx.Panel(self,-1)
         #self.panel = wx.ScrolledPanel(self)
         #self.sizer = wx.FlexGridSizer(cols=2,hgap=6,vgap=6)
-        self.sizer = wx.GridBagSizer(5,5)
-        self.panel.SetSizer(self.sizer)
+        #self.sizer = wx.GridBagSizer(5,5)
+        self.main_sizer = wx.BoxSizer(wx.VERTICAL)
+        #self.sizer = wx.BoxSizer(wx.HORIZONTAL)
+        #self.grid_sizer = wx.BoxSizer(wx.VERTICAL)
+        #self.panel.SetSizer(self.sizer)
 
         self.setupMenuBar()
         self.Show(True)
@@ -101,8 +104,11 @@ class MainWindow(wx.Frame):
     
     def prjInit(self, data):
         try:
-            self.sizer.Clear()
-            self.panel.ClearBackground()
+            #self.sizer.Clear()
+            #self.panel.ClearBackground()
+            self.main_sizer.Add((-1, 25))
+            self.sizer = wx.BoxSizer(wx.HORIZONTAL)
+            
             self.path = data['prj_path']
             self.partion_num = int(data['partion_num'])
             self.prj_name_label = wx.StaticText(self.panel, -1, "Project Name:")
@@ -110,13 +116,20 @@ class MainWindow(wx.Frame):
             # wx.TE_READONLY
             #self.prj_name_text = wx.TextCtrl(self.panel, -1, data['prj_name'], size=(175,-1), style=wx.TE_READONLY)
 
-            self.add_button = wx.Button(self.panel, label = u'添加病人信息', size = (100, 20))  
+            #self.add_button = wx.Button(self.panel, label = u'添加病人信息', size = (100, 20))  
+            self.add_button = wx.Button(self.panel, label = u'添加病人信息', size = (100, 20))
             #self.sizer.AddMany([self.prj_name_label, self.prj_name_text, self.add_button])
-            self.sizer.Add(self.prj_name_label, pos=(0,0))
-            self.sizer.Add(self.prj_name_text, pos=(0,1))
-            self.sizer.Add(self.add_button, pos=(1,1))
+            self.sizer.Add(self.prj_name_label)
+            self.sizer.Add(self.prj_name_text)
+            self.sizer.Add((-1, 25))
+            #self.sizer.Add(self.add_button)
+            self.main_sizer.Add(self.sizer, flag=wx.ALIGN_CENTER_HORIZONTAL ,border=10)
+            self.main_sizer.Add(self.add_button, flag=wx.ALIGN_CENTER_HORIZONTAL)
+            #self.main_sizer.Add(self.add_button)
 
+            self.main_sizer.Add((-1, 25))
             # Init grid to show patients information
+            self.grid_sizer = wx.BoxSizer(wx.HORIZONTAL)
             self.grid = wx.grid.Grid(self.panel)
             #self.grid.Scroll(0, 0) 
             self.grid.CreateGrid(100,6)
@@ -124,8 +137,10 @@ class MainWindow(wx.Frame):
             for i in range(len(self.colLabels)):
                 self.grid.SetColLabelValue(i, self.colLabels[i])
 
-            self.sizer.Add(self.grid, pos=(5,5), flag=wx.CENTER|wx.ALL, border=5)
+            self.grid_sizer.Add(self.grid, proportion=1, flag=wx.ALIGN_CENTER, border=100)
+            self.main_sizer.Add(self.grid_sizer, proportion=1, flag=wx.ALIGN_CENTRE, border=10)
 
+            self.panel.SetSizer(self.main_sizer)
             # bind events
             self.Bind(wx.EVT_BUTTON, self.onAdd, self.add_button)
         except Exception, e:
