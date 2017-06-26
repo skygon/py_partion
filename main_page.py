@@ -132,8 +132,8 @@ class MainWindow(wx.Frame):
             self.grid_sizer = wx.BoxSizer(wx.HORIZONTAL)
             self.grid = wx.grid.Grid(self.panel)
             #self.grid.Scroll(0, 0) 
-            self.grid.CreateGrid(100,6)
-            self.grid_rows = 5 # initially we have 5 rows
+            self.grid.CreateGrid(30,6)
+            self.grid_rows = 10 # initially we have 5 rows
             for i in range(len(self.colLabels)):
                 self.grid.SetColLabelValue(i, self.colLabels[i])
 
