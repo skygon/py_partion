@@ -26,8 +26,10 @@ class Utils(object):
     @staticmethod
     def appendToFile(path, line):
         print "append patient information to file"
+        print "path is %s" %(path)
         if os.path.exists(path):
             data_file = os.path.join(path, 'data.csv')
+            print "write to file %s" %(data_file)
             with open(data_file, 'a') as f:
                 f.write(line.encode('utf8'))
                 f.write('\n')

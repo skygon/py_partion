@@ -1,32 +1,33 @@
 #coding=utf-8
-import wx  
-import wx.grid 
-import generictable
-      
-data = (("Bob", "Dernier"), ("Ryne", "Sandberg"),   
-        ("Gary", "Matthews"), ("Leon", "Durham"),  
-        ("Keith", "Moreland"), ("Ron", "Cey"),  
-        ("Jody", "Davis"), ("Larry", "Bowa"),  
-        ("Rick", "Sutcliffe"))  
-              
-colLabels = ("Last", "First")  
-rowLabels = ("CF", "2B", "LF", "1B", "RF", "3B", "C", "SS", "P")  
-                     
-class SimpleGrid(wx.grid.Grid):  
-    def __init__(self, parent):  
-        wx.grid.Grid.__init__(self, parent, -1)  
-        tableBase = generictable.GenericTable(data, rowLabels,   
-                colLabels)  
-        self.SetTable(tableBase)                     
+import wx
+import wx.grid
 
-class TestFrame(wx.Frame):  
-    def __init__(self, parent):  
-        wx.Frame.__init__(self, parent, -1, "A Grid",   
-                size=(275, 275))  
-        grid = SimpleGrid(self)  
+class TestFrame(wx.Frame):
 
-if __name__ == '__main__':  
-    app = wx.App()  
-    frame = TestFrame(None)  
-    frame.Show(True)  
-    app.MainLoop()  
+    rowLabels = ["uno", "dos", "tres", "quatro", "cinco"]
+    colLabels = ["homer", "marge", "bart", "lisa", "maggie"]
+    
+    def __init__(self):
+        wx.Frame.__init__(self, None, title="Grid Headers",
+                          size=(500,200))
+        grid = wx.grid.Grid(self)
+        grid.CreateGrid(5,5)
+        for row in range(5):
+            #1 start
+            grid.SetRowLabelValue(row, self.rowLabels[row])
+            grid.SetColLabelValue(row, self.colLabels[row])
+            #1 end
+            for col in range(5):
+                grid.SetCellValue(row, col, "(%s,%s)" % (self.rowLabels[row], self.colLabels[col]))
+        #grid.ClearGrid()
+        grid.AppendRows(10)
+        for col in range(5):
+            grid.SetCellValue(5, col, "(%s,%s)" % (self.rowLabels[row-1], self.colLabels[col]))
+        
+        
+
+if __name__ == "__main__":
+    app = wx.App()
+    frame = TestFrame()
+    frame.Show()
+    app.MainLoop()

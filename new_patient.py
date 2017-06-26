@@ -22,14 +22,23 @@ class NewPatient(wx.Frame):
         self.patient_gender_label = wx.StaticText(self.panel,-1,"Gender:")
         self.patient_gender_text = wx.TextCtrl(self.panel,-1,"", size=(175,-1))
 
+        # address
+        self.patient_address_label = wx.StaticText(self.panel,-1,"Address:")
+        self.patient_address_text = wx.TextCtrl(self.panel,-1,"", size=(175,-1))
+
+        # phone number
+        self.patient_phone_label = wx.StaticText(self.panel,-1,"Phone:")
+        self.patient_phone_text = wx.TextCtrl(self.panel,-1,"", size=(175,-1))
+
         # 用sizer控制界面布局
         self.sizer = wx.FlexGridSizer(cols=2,hgap=6,vgap=6)
-        self.sizer.AddMany([self.patient_name_label, self.patient_name_text, self.patient_gender_label, self.patient_gender_text])
+        self.sizer.AddMany([self.patient_name_label, self.patient_name_text, self.patient_gender_label, self.patient_gender_text, 
+                self.patient_address_label, self.patient_address_text, self.patient_phone_label, self.patient_phone_text])
         self.panel.SetSizer(self.sizer)
 
         # 在Panel上添加Button  
-        self.ok_button = wx.Button(self.panel, label = 'OK', pos = (240, 100), size = (60, 20))
-        self.cancel_button = wx.Button(self.panel, label = 'Cancel', pos = (320, 100), size = (60, 20))
+        self.ok_button = wx.Button(self.panel, label = 'OK', pos = (240, 120), size = (60, 20))
+        self.cancel_button = wx.Button(self.panel, label = 'Cancel', pos = (320, 120), size = (60, 20))
         
         # 绑定单击事件  
         self.Bind(wx.EVT_BUTTON, self.onOk, self.ok_button)
@@ -39,9 +48,9 @@ class NewPatient(wx.Frame):
         print "Click OK, start to add new patient"
         self.patient_name = self.patient_name_text.GetValue()
         self.patient_gender = self.patient_gender_text.GetValue()
-        print "patient information:"
-        print "patient_name: %s" %(self.patient_name)
-        print "partion gender: %s" %(self.patient_gender)
+        self.patient_address = self.patient_address_text.GetValue()
+        self.patient_phone = self.patient_phone_text.GetValue()
+
         self.Show(False)
         self.create = True
         self.callback(self)

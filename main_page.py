@@ -123,11 +123,13 @@ class MainWindow(wx.Frame):
         try:
             pat_name = new_pat.patient_name
             pat_gender = new_pat.patient_gender
+            pat_address = new_pat.patient_address
+            pat_phone = new_pat.patient_phone
             print "name %s, gender: %s" %(type(pat_name), type(pat_gender))
             
             partion = random.randint(0, self.partion_num-1)
             time_str = time.strftime('%Y-%m-%d %H:%M',time.localtime(time.time()))
-            line = pat_name + "," + pat_gender + "," + str(partion) + "," + time_str
+            line = pat_name + "," + pat_gender + "," + str(partion) + "," + pat_address + "," + pat_phone + "," + time_str
             # line is unicode
             print "line is %s" %(line.encode('utf8'))
             Utils.appendToFile(self.path, line)
