@@ -132,7 +132,7 @@ class MainWindow(wx.Frame):
             self.grid_sizer = wx.BoxSizer(wx.HORIZONTAL)
             self.grid = wx.grid.Grid(self.panel)
             #self.grid.Scroll(0, 0) 
-            self.grid.CreateGrid(30,6)
+            self.grid.CreateGrid(10,6)
             self.grid_rows = 10 # initially we have 5 rows
             for i in range(len(self.colLabels)):
                 self.grid.SetColLabelValue(i, self.colLabels[i])
@@ -149,7 +149,21 @@ class MainWindow(wx.Frame):
     # used in open an exist project
     def loadExistData(self):
         try:
-            pass
+            data_file = os.path.join(self.path, 'data.csv')
+            f = open(data_file, 'r')
+            line = f.readline().strip('\n')
+            count = 0
+            while line:
+                if count >= self.grid_rows:
+                    self.grid.AppendRows(10)
+                    self.grid_rows += 10
+                
+                data = line.split(',')
+                for i in range(len(self.colLabels)):
+                    self.grid.SetCellValue(count, i, "%s" % (data[i]))
+                line = f.readline()
+                count += 1
+
         except Exception, e:
             print "loadExistData failed: %s" %(str(e))
     
