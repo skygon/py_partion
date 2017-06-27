@@ -163,6 +163,7 @@ class MainWindow(wx.Frame):
                     self.grid.SetCellValue(count, i, "%s" % (data[i]))
                 line = f.readline()
                 count += 1
+            self.grid.AutoSize()
 
         except Exception, e:
             print "loadExistData failed: %s" %(str(e))
