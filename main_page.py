@@ -92,6 +92,7 @@ class MainWindow(wx.Frame):
             if new_prj.create:
                 data['prj_name'] = new_prj.prj_name
                 data['partion_num'] = new_prj.partion_num
+                data['partion_percentage'] = new_prj.partion_percentage
                 data['prj_path'] = new_prj.path
                 Utils.saveConfigFile(data, data['prj_path'])
             # init new project
@@ -101,7 +102,31 @@ class MainWindow(wx.Frame):
         finally:
             # close project frame
             new_prj.Close(True)
-    
+        
+    def router(self):
+        try:
+            # init
+            self.distribute = []
+            for i in range(self.partion_num):
+                self.distribute.append([])
+            # define route
+            s = self.partion_percentage.split(':')
+            percent_array = [int(i) for i in s]
+            self.total = sum(percent_array)
+            print "percent array %s" %(percent_array)
+            count = 0
+            for i in range(self.partion_num):
+                if i >= len(percent_array):
+                    return
+                
+                k = percent_array[i]
+                for j in range(k):
+                    self.distribute[i].append(count)
+                    count += 1
+            print "Distribute array is %s" %(self.distribute)
+        except Exception, e:
+            print "Router failed: %s" %(str(e))
+
     def prjInit(self, data):
         try:
             #self.sizer.Clear()
@@ -111,8 +136,12 @@ class MainWindow(wx.Frame):
             
             self.path = data['prj_path']
             self.partion_num = int(data['partion_num'])
+            self.partion_percentage = data['partion_percentage']
             self.prj_name_label = wx.StaticText(self.panel, -1, "Project Name:")
-            self.prj_name_text = wx.StaticText(self.panel, -1, data['prj_name'])
+            self.prj_name_text = wx.StaticText(self.panel, -1, data['prj_name'] + "#" + self.partion_percentage)
+
+            # percentage handler
+            self.router()
             # wx.TE_READONLY
             #self.prj_name_text = wx.TextCtrl(self.panel, -1, data['prj_name'], size=(175,-1), style=wx.TE_READONLY)
 
@@ -176,7 +205,13 @@ class MainWindow(wx.Frame):
             pat_phone = new_pat.patient_phone
             print "name %s, gender: %s" %(type(pat_name), type(pat_gender))
             
-            partion = random.randint(0, self.partion_num-1)
+            n = random.randint(0, self.total-1)
+            partion = 0
+            for i in range(self.partion_num):
+                if n in self.distribute[i]:
+                    partion = i
+                    break
+            
             time_str = time.strftime('%Y-%m-%d %H:%M',time.localtime(time.time()))
             line = pat_name + "," + pat_gender + "," + str(partion) + "," + pat_address + "," + pat_phone + "," + time_str
             # line is unicode
@@ -193,5 +228,5 @@ class MainWindow(wx.Frame):
 
 if __name__ == "__main__":
     app = wx.App(False)
-    frame = MainWindow(None, 'Smart Partion')
+    frame = MainWindow(None, 'Smart Partition')
     app.MainLoop() #listen on event

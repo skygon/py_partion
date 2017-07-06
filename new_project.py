@@ -24,13 +24,17 @@ class NewProject(wx.Frame):
         self.partion_num_label = wx.StaticText(self.panel,-1,"Partion Number:")
         self.partion_num_text = wx.TextCtrl(self.panel,-1,'2',size=(175,-1))
 
+        # partion percentage
+        self.partion_percentage_label = wx.StaticText(self.panel,-1,"Partion Percentage:")
+        self.partion_percentage_text = wx.TextCtrl(self.panel,-1,'1:1',size=(175,-1))
+
         # project save path
         self.path_label = wx.StaticText(self.panel, -1, "Project Directory:")
         self.path_button = wx.Button(self.panel, label = 'browse', pos = (200, 60), size = (60, 20))  
 
         # 用sizer控制界面布局
         self.sizer = wx.FlexGridSizer(cols=2,hgap=6,vgap=6)
-        self.sizer.AddMany([self.prj_name_label, self.prj_name_text, self.partion_num_label, self.partion_num_text, self.path_label, self.path_button])
+        self.sizer.AddMany([self.prj_name_label, self.prj_name_text, self.partion_num_label, self.partion_num_text, self.partion_percentage_label, self.partion_percentage_text, self.path_label, self.path_button])
         self.panel.SetSizer(self.sizer)
 
         # 在Panel上添加Button  
@@ -55,6 +59,7 @@ class NewProject(wx.Frame):
         print "Click OK, start to create new project"
         self.prj_name = self.prj_name_text.GetValue()
         self.partion_num = self.partion_num_text.GetValue()
+        self.partion_percentage = self.partion_percentage_text.GetValue()
         print "configure information:"
         print "prj_name: %s" %(self.prj_name)
         print "partion number: %s" %(self.partion_num)
